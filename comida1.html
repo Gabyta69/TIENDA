@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tokita Burger & Bites</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            background-color: blue;
+            padding: 15px;
+            text-align: center;
+            color: white;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .categoria {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 15px;
+            padding: 20px;
+            text-align: center;
+            width: 250px;
+            transition: transform 0.3s;
+        }
+
+        .categoria img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .categoria h2 {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .categoria p {
+            color: #black;
+        }
+
+        .categoria button {
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .categoria button:hover {
+            background-color:# red;
+        }
+
+        .carrito {
+            position: fixed;
+            right: 20px;
+            top: 100px;
+            width: 300px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .carrito h3 {
+            margin-top: 0;
+        }
+
+        .carrito-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .carrito-item p {
+            margin: 0;
+        }
+
+        .total {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .pedido-button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+
+        .pedido-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Tokita Burger & Bites</h1>
+</header>
+
+<!-- Contenedor de categorías de comida -->
+<div class="container">
+    <div class="categoria">
+        <img src="https://th.bing.com/th/id/OIP.9EH0_xqOfBt_W2Dr77lJxQHaE7?rs=1&pid=ImgDetMain">
+        <h2>Hamburguesa</h2>
+        <p>Deliciosa hamburguesa con queso, lechuga y tomate.</p>
+        <button onclick="agregarAlCarrito('Hamburguesa', 10)">Añadir al carrito $15</button>
+    </div>
+    <div class="categoria">
+        <img src="https://th.bing.com/th/id/R.590ef90b1e9bcbc07a5f202d8670a6d2?rik=vqEPb%2b3JYpeQiA&riu=http%3a%2f%2fthepizzafan.com%2fwp-content%2fuploads%2f2013%2f11%2fPizza-by-the-Harbour-in-Noblesville-IN_Pepperoni-and-Extra-Cheese-Pizza.jpg&ehk=F6W9L0yq4gbf7yJWbM4udw8jWNFGMIGyu9IEDo5lq9w%3d&risl=1&pid=ImgRaw&r=0" alt="Pizza">
+        <h2>Pizza</h2>
+        <p>Pizza de pepperoni con extra queso.</p>
+        <button onclick="agregarAlCarrito('Pizza', 12)">Añadir al carrito - $17.50</button>
+    </div>
+    <div class="categoria">
+        <img src="https://i.pinimg.com/originals/07/f5/cc/07f5cc6b13822f22794d6bf5f43948cf.jpg">
+        <H>Tacos de birria</h2>
+        <p>tacos de birria con diferentes tipos de carne</p>
+        <button onclick="agregarAlCarrito('Sushi', 15)">Añadir al carrito $15.60</button>
+    </div>
+    <div class="categoria">
+        <img src="https://d1kxxrc2vqy8oa.cloudfront.net/wp-content/uploads/2019/12/13184537/RFB-0612-2-polloempanizadocongranola.jpg" alt="Ensalada">
+        <h2>Pollo Empanizado</h2>
+        <p>Ensalada fresca con pollo a la parrilla.</p>
+        <button onclick="agregarAlCarrito('Ensalada', 8)">Añadir al carrito $12.00</button>
+    </div>
+</div>
+
+<!-- Carrito de compras -->
+<div class="carrito">
+    <h3>Carrito de Compras</h3>
+    <div id="carrito-items"></div>
+    <p class="total">Total: $<span id="total">0</span></p>
+    <a href="#" class="pedido-button" onclick="realizarPedido()">Realizar Pedido</a>
+</div>
+
+<script>
+    // Array para almacenar los elementos del carrito
+    let carrito = [];
+    let total = 0;
+
+    function agregarAlCarrito(nombre, precio) {
+        // Añadir el producto al carrito
+        carrito.push({ nombre, precio });
+        total += precio;
+
+        // Actualizar el carrito en la interfaz
+        actualizarCarrito();
+    }
+
+    function actualizarCarrito() {
+        // Seleccionar el contenedor de los elementos del carrito
+        const carritoItems = document.getElementById('carrito-items');
+        carritoItems.innerHTML = ''; // Limpiar el contenido actual
+
+        // Añadir cada elemento del carrito al HTML
+        carrito.forEach(item => {
+            const div = document.createElement('div');
+            div.classList.add('carrito-item');
+            div.innerHTML = `<p>${item.nombre}</p><p>$${item.precio}</p>`;
+            carritoItems.appendChild(div);
+        });
+
+        // Actualizar el total
+        document.getElementById('total').innerText = total;
+    }
+
+    function realizarPedido() {
+        alert('Tu pedido ha sido realizado. Total: $' + total);
+        carrito = [];
+        total = 0;
+        actualizarCarrito();
+    }
+</script>
+
+</body>
+</html

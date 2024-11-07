@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campo de Tulipanes</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(to top, #87CEEB, #F0E68C); /* Cielo y tierra */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .campo-tulipanes {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            justify-content: space-evenly;
+            align-items: flex-end;
+            padding-bottom: 50px;
+        }
+
+        .tulipan {
+            position: relative;
+            width: 50px;
+            height: 150px;
+            margin: 10px;
+            animation: balanceo 3s infinite ease-in-out;
+        }
+
+        .tallo {
+            position: absolute;
+            width: 6px;
+            height: 100px;
+            background-color: green;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+        }
+
+        .hoja {
+            position: absolute;
+            width: 40px;
+            height: 20px;
+            background-color: green;
+            border-radius: 20px 0 0 20px;
+            top: 50px;
+            left: 10px;
+            transform: rotate(-30deg);
+        }
+
+        .flor {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: blue; /* Cambiar a blanco para tulipán blanco */
+            border-radius: 50%;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+        }
+
+        .flor.blanca {
+            background-color: yellowgreen;
+        }
+
+        .flor::before, .flor::after {
+            content: "";
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: inherit;
+            border-radius: 50%;
+        }
+
+        .flor::before {
+            transform: rotate(45deg);
+            left: 0;
+        }
+
+        .flor::after {
+            transform: rotate(-45deg);
+            left: 0;
+        }
+
+        @keyframes balanceo {
+            0%, 100% {
+                transform: rotate(-5deg);
+            }
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="campo-tulipanes">
+        <!-- Tulipanes rojos -->
+        <div class="tulipan">
+            <div class="tallo"></div>
+            <div class="hoja"></div>
+            <div class="flor"></div>
+        </div>
+        <div class="tulipan">
+            <div class="tallo"></div>
+            <div class="hoja"></div>
+            <div class="flor"></div>
+        </div>
+        <div class="tulipan">
+            <div class="tallo"></div>
+            <div class="hoja"></div>
+            <div class="flor"></div>
+        </div>
+        <div class="tulipan">
+            <div class="tallo"></div>
+            <div class="hoja"></div>
+            <div class="flor"></div>
+        </div>
+
+        <!-- Tulipanes blancos -->
+        <div class="tulipan">
+            <div class="tallo"></div>
+            <div class="hoja"></div>
+            <div class="flor blanca"></div>
+        </div>
+        <div class="tulipan">
+            <div class="tallo"></div>
+            <div class="hoja"></div>
+            <div class="flor blanca"></div>
+        </div>
+        <div class="tulipan">
+            <div class="tallo"></div>
+            <div class="hoja"></div>
+            <div class="flor blanca"></div>
+        </div>
+        <div class="tulipan">
+            <div class="tallo"></div>
+            <div class="hoja"></div>
+            <div class="flor blanca"></div>

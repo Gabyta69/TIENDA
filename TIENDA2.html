@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos de Comida Online - TOKITA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            background-color: #ff6347;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #333;
+            padding: 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+        .banner {
+            text-align: center;
+            padding: 20px;
+            background-image: url('https://source.unsplash.com/1600x600/?restaurant,food');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            font-size: 32px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .menu-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .menu-item {
+            background-color: white;
+            margin: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .menu-item .info {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .menu-item .info h3 {
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .menu-item .info p {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .menu-item .info button {
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .menu-item .info button:hover {
+            background-color: #ff4500;
+        }
+
+        .cart {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 250px;
+        }
+
+        .cart h4 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .cart ul {
+            list-style: none;
+        }
+
+        .cart ul li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .cart .total {
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .cart button {
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .cart button:hover {
+            background-color: #ff4500;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        Pedidos de Comida Online - TOKITA
+    </header>
+
+    <nav>
+        <a href="#">Inicio</a>
+        <a href="#">Menú</a>
+        <a href="#">Ofertas</a>
+        <a href="#">Contacto</a>
+    </nav>
+
+    <div class="banner">
+        ¡Haz tu pedido ahora y disfruta de la mejor comida!
+    </div>
+
+    <div class="menu-container">
+        <!-- Plato 1 -->
+        <div class="menu-item">
+            <img src="https://source.unsplash.com/300x200/?pizza" alt="Pizza">
+            <div class="info">
+                <h3>Pizza Margarita</h3>
+                <p>$10.99</p>
+                <button onclick="addToCart('Pizza Margarita', 10.99)">Añadir al Carrito</button>
+            </div>
+        </div>
+
+        <!-- Plato 2 -->
+        <div class="menu-item">
+            <img src="https://source.unsplash.com/300x200/?burger" alt="Hamburguesa">
+            <div class="info">
+                <h3>Hamburguesa Especial</h3>
+                <p>$8.99</p>
+                <button onclick="addToCart('Hamburguesa Especial', 8.99)">Añadir al Carrito</button>
+            </div>
+        </div>
+
+        <!-- Plato 3 -->
+        <div class="menu-item">
+            <img src="https://source.unsplash.com/300x200/?sushi" alt="Sushi">
+            <div class="info">
+                <h3>Sushi Deluxe</h3>
+                <p>$12.99</p>
+                <button onclick="addToCart('Sushi Deluxe', 12.99)">Añadir al Carrito</button>
+            </div>
+        </div>
+
+        <!-- Agrega más platos aquí -->
+    </div>
+
+    <div class="cart">
+        <h4>Carrito de Compras</h4>
+        <ul id="cart-items">
+            <li>No hay artículos en el carrito.</li>
+        </ul>
+        <p class="total">Total: $<span id="total-price">0.00</span></p>
+        <button onclick="checkout()">Finalizar Pedido</button>
+    </div>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            total += price;
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const totalPrice = document.getElementById('total-price');
+            cartItems.innerHTML = '';
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+                cartItems.appendChild(li);
+            });
+            totalPrice.textContent = total.toFixed(2);
+        }
+
+        function checkout() {
+            alert('¡Gracias por tu pedido! Total: $' + total.toFixed(2));
+            cart = [];
+            total = 0;
+            updateCart();
+        }
+    </script>
+
+</body>
+</html>
